@@ -28,6 +28,30 @@ else
     echo "PLEX_LIBRARIES = None" >> /app/config.py
 fi
 
+# Handle INCLUDE_TOPICS (comma-separated string to Python list)
+if [ -n "$INCLUDE_TOPICS" ]; then
+    PYLIST=$(echo "$INCLUDE_TOPICS" | python3 -c "
+import sys
+topics = [t.strip() for t in sys.stdin.read().strip().split(',') if t.strip()]
+print(repr(topics))
+")
+    echo "INCLUDE_TOPICS = $PYLIST" >> /app/config.py
+else
+    echo "INCLUDE_TOPICS = None" >> /app/config.py
+fi
+
+# Handle EXCLUDE_TOPICS (comma-separated string to Python list)
+if [ -n "$EXCLUDE_TOPICS" ]; then
+    PYLIST=$(echo "$EXCLUDE_TOPICS" | python3 -c "
+import sys
+topics = [t.strip() for t in sys.stdin.read().strip().split(',') if t.strip()]
+print(repr(topics))
+")
+    echo "EXCLUDE_TOPICS = $PYLIST" >> /app/config.py
+else
+    echo "EXCLUDE_TOPICS = None" >> /app/config.py
+fi
+
 # Validate required vars
 if [ -z "$PLEX_URL" ] || [ -z "$PLEX_TOKEN" ] || [ -z "$DTDD_API_KEY" ]; then
     echo "ERROR: PLEX_URL, PLEX_TOKEN, and DTDD_API_KEY are required."

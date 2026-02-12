@@ -8,6 +8,7 @@ Usage:
     python plex_warnings.py --clear      # Remove all content warnings from Plex
     python plex_warnings.py --clear-cache  # Clear the local DTDD API cache
     python plex_warnings.py --movie "Midsommar"  # Process a single movie by title
+    python plex_warnings.py --list-topics  # Show all available topic names for filtering
 """
 from __future__ import annotations
 
@@ -57,6 +58,9 @@ def format_warnings(media_data: dict) -> str | None:
     min_ratio = getattr(config, "MIN_YES_RATIO", 0.6)
 
     show_nos = getattr(config, "SHOW_SAFE_TOPICS", False)
+    include_topics = getattr(config, "INCLUDE_TOPICS", None)
+    exclude_topics = getattr(config, "EXCLUDE_TOPICS", None)
+
     warnings_yes = []
     warnings_no = []
 
@@ -70,6 +74,14 @@ def format_warnings(media_data: dict) -> str | None:
 
         if total == 0 or not topic_name:
             continue
+
+        # Apply topic filtering
+        if include_topics is not None:
+            if topic_name.lower() not in [t.lower() for t in include_topics]:
+                continue
+        elif exclude_topics is not None:
+            if topic_name.lower() in [t.lower() for t in exclude_topics]:
+                continue
 
         ratio = yes_count / total
 
@@ -229,6 +241,8 @@ def main():
                         help="Clear the local DTDD API response cache")
     parser.add_argument("--movie", type=str,
                         help="Process a single movie by title (exact match)")
+    parser.add_argument("--list-topics", action="store_true",
+                        help="Show all available DTDD topic names (for use in INCLUDE_TOPICS/EXCLUDE_TOPICS)")
     args = parser.parse_args()
 
     dry_run = args.dry_run or getattr(config, "DRY_RUN", False)
@@ -237,8 +251,34 @@ def main():
     if args.clear_cache:
         client = DTDDClient(config.DTDD_API_KEY)
         client.clear_cache()
-        if not args.clear and not args.movie:
+        if not args.clear and not args.movie and not args.list_topics:
             return
+
+    # Handle list-topics: fetch a well-known movie to show all available topics
+    if args.list_topics:
+        dtdd = DTDDClient(
+            api_key=config.DTDD_API_KEY,
+            cache_ttl=getattr(config, "CACHE_TTL", 604800),
+            api_delay=getattr(config, "API_DELAY", 1.0),
+        )
+        print("Fetching topic list from DTDD...\n")
+        # Search a popular movie likely to have all topics rated
+        results = dtdd.search("Avengers Endgame")
+        if results:
+            media = dtdd.get_media(results[0]["id"])
+            stats = media.get("topicItemStats", [])
+            topics = sorted(set(
+                stat.get("topic", {}).get("name", "")
+                for stat in stats
+                if stat.get("topic", {}).get("name")
+            ))
+            print("Available topic names (copy these into INCLUDE_TOPICS or EXCLUDE_TOPICS):\n")
+            for topic in topics:
+                print(f'    "{topic}",')
+            print(f"\n{len(topics)} topics found.")
+        else:
+            print("Could not fetch topics. Check your DTDD_API_KEY.")
+        return
 
     # Connect to Plex
     print(f"Connecting to Plex at {config.PLEX_URL}...")

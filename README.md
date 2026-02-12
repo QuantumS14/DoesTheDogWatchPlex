@@ -131,10 +131,18 @@ All settings are in `config.py`. Key options:
 | `MIN_YES_VOTES` | `MIN_YES_VOTES` | `5` | Minimum "yes" votes to include a warning |
 | `MIN_YES_RATIO` | `MIN_YES_RATIO` | `0.7` | Minimum ratio of yes/(yes+no) to flag a warning |
 | `SHOW_SAFE_TOPICS` | `SHOW_SAFE_TOPICS` | `False` | Include the ✅ "safe" list (e.g., "no dogs die") |
+| `INCLUDE_TOPICS` | `INCLUDE_TOPICS` | `None` | Only show these topics (comma-separated). Overrides EXCLUDE_TOPICS |
+| `EXCLUDE_TOPICS` | `EXCLUDE_TOPICS` | `None` | Hide these topics (comma-separated). Ignored if INCLUDE_TOPICS is set |
 | `API_DELAY` | - | `1.0` | Seconds between DTDD API calls |
 | `CACHE_TTL` | - | `604800` | Cache duration in seconds (default: 7 days) |
 | `DRY_RUN` | `DRY_RUN` | `False` | Set to `True` to preview without writing |
 | - | `SCHEDULE` | - | Docker only: seconds between re-runs (e.g., `86400` for daily) |
+
+To see all available topic names for filtering, run:
+
+```bash
+python plex_warnings.py --list-topics
+```
 
 ## How It Works
 

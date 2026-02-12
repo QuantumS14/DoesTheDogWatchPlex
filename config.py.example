@@ -23,10 +23,35 @@ DTDD_API_KEY = "your-dtdd-api-key-here"
 SEPARATOR = "\n\n———— Content Warnings (via DoesTheDogDie.com) ————"
 
 # Minimum yes votes for a warning to be included (filters out low-confidence entries)
-MIN_YES_VOTES = 3
+MIN_YES_VOTES = 5
 
 # Only show warnings where "yes" votes outnumber "no" votes by this ratio
-MIN_YES_RATIO = 0.6
+MIN_YES_RATIO = 0.7
+
+# Show the ✅ "safe" topics (e.g., "no dogs die")? These lists tend to be huge.
+# Set to True if you want them included.
+SHOW_SAFE_TOPICS = False
+
+# --- Topic Filtering ---
+# Only show warnings for these specific topics (by name from DTDD).
+# If set, ONLY these topics will appear. Leave as None to show all.
+# Run: python plex_warnings.py --list-topics to see all available topic names.
+# Example:
+# INCLUDE_TOPICS = [
+#     "a dog dies",
+#     "a cat dies",
+#     "someone is sexually assaulted",
+#     "someone dies by suicide",
+#     "there's flashing lights or images",
+#     "someone self harms",
+#     "there's excessive gore",
+# ]
+INCLUDE_TOPICS = None
+
+# Exclude these specific topics (ignored if INCLUDE_TOPICS is set).
+# Example:
+# EXCLUDE_TOPICS = ["there is copaganda", "there are shower scenes"]
+EXCLUDE_TOPICS = None
 
 # How long to cache DTDD results locally (seconds). Default: 7 days
 CACHE_TTL = 60 * 60 * 24 * 7
