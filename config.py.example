@@ -53,6 +53,13 @@ INCLUDE_TOPICS = None
 # EXCLUDE_TOPICS = ["there is copaganda", "there are shower scenes"]
 EXCLUDE_TOPICS = None
 
+# --- Translation ---
+# Translate topic names to another language before writing to Plex.
+# Uses Google Translate. Set to a language code (e.g., "es", "fr", "de", "pt", "ja").
+# Leave as None for English (default). Translations are cached locally.
+# Full list of supported codes: https://cloud.google.com/translate/docs/languages
+LANGUAGE = None
+
 # How long to cache DTDD results locally (seconds). Default: 7 days
 CACHE_TTL = 60 * 60 * 24 * 7
 

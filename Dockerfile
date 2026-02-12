@@ -5,7 +5,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY dtdd.py plex_warnings.py ./
+COPY dtdd.py plex_warnings.py translate.py ./
 
 # Cache and config mount points
 VOLUME ["/app/.cache", "/app/config"]
@@ -21,6 +21,7 @@ ENV MIN_YES_RATIO="0.7"
 ENV SHOW_SAFE_TOPICS="false"
 ENV INCLUDE_TOPICS=""
 ENV EXCLUDE_TOPICS=""
+ENV LANGUAGE=""
 ENV SCHEDULE=""
 ENV DRY_RUN="false"
 

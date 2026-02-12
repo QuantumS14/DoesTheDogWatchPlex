@@ -93,11 +93,22 @@ def format_warnings(media_data: dict) -> str | None:
     if not warnings_yes and not warnings_no:
         return None
 
+    # Translate topic names if LANGUAGE is configured
+    target_lang = getattr(config, "LANGUAGE", None)
+    if target_lang:
+        from translate import translate_topics
+        all_names = [w[0] for w in warnings_yes] + [w[0] for w in warnings_no]
+        translations = translate_topics(all_names, target_lang)
+    else:
+        translations = None
+
     lines = []
     if warnings_yes:
-        lines.append("⚠️  " + " · ".join(w[0] for w in warnings_yes))
+        names = [translations[w[0]] if translations else w[0] for w in warnings_yes]
+        lines.append("⚠️  " + " · ".join(names))
     if warnings_no:
-        lines.append("✅  " + " · ".join(w[0] for w in warnings_no))
+        names = [translations[w[0]] if translations else w[0] for w in warnings_no]
+        lines.append("✅  " + " · ".join(names))
 
     return "\n".join(lines)
 

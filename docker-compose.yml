@@ -16,6 +16,8 @@ services:
       - INCLUDE_TOPICS=
       # Comma-separated list of topics to exclude (ignored if INCLUDE_TOPICS is set).
       - EXCLUDE_TOPICS=
+      # Translate warnings to another language (e.g., es, fr, de, pt, ja). Empty = English.
+      - LANGUAGE=
       - DRY_RUN=False
       - SCHEDULE=86400                      # run every 24h. Remove for one-shot.
     volumes:

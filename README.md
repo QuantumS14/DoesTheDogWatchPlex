@@ -133,6 +133,7 @@ All settings are in `config.py`. Key options:
 | `SHOW_SAFE_TOPICS` | `SHOW_SAFE_TOPICS` | `False` | Include the ✅ "safe" list (e.g., "no dogs die") |
 | `INCLUDE_TOPICS` | `INCLUDE_TOPICS` | `None` | Only show these topics (comma-separated). Overrides EXCLUDE_TOPICS |
 | `EXCLUDE_TOPICS` | `EXCLUDE_TOPICS` | `None` | Hide these topics (comma-separated). Ignored if INCLUDE_TOPICS is set |
+| `LANGUAGE` | `LANGUAGE` | `None` | Translate warnings to another language (e.g., `es`, `fr`, `de`, `pt`, `ja`) |
 | `API_DELAY` | - | `1.0` | Seconds between DTDD API calls |
 | `CACHE_TTL` | - | `604800` | Cache duration in seconds (default: 7 days) |
 | `DRY_RUN` | `DRY_RUN` | `False` | Set to `True` to preview without writing |

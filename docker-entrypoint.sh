@@ -52,6 +52,13 @@ else
     echo "EXCLUDE_TOPICS = None" >> /app/config.py
 fi
 
+# Handle LANGUAGE
+if [ -n "$LANGUAGE" ]; then
+    echo "LANGUAGE = \"${LANGUAGE}\"" >> /app/config.py
+else
+    echo "LANGUAGE = None" >> /app/config.py
+fi
+
 # Validate required vars
 if [ -z "$PLEX_URL" ] || [ -z "$PLEX_TOKEN" ] || [ -z "$DTDD_API_KEY" ]; then
     echo "ERROR: PLEX_URL, PLEX_TOKEN, and DTDD_API_KEY are required."
