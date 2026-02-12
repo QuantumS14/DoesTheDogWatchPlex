@@ -105,6 +105,9 @@ python plex_warnings.py --clear
 
 # Clear the local API cache (forces fresh DTDD lookups)
 python plex_warnings.py --clear-cache
+
+# List all available topic names for filtering
+python plex_warnings.py --list-topics
 ```
 
 ### Running on a Schedule (cron)
@@ -139,11 +142,53 @@ All settings are in `config.py`. Key options:
 | `DRY_RUN` | `DRY_RUN` | `False` | Set to `True` to preview without writing |
 | - | `SCHEDULE` | - | Docker only: seconds between re-runs (e.g., `86400` for daily) |
 
-To see all available topic names for filtering, run:
+## Topic Filtering
+
+You can control which topics appear in your warnings using `INCLUDE_TOPICS` and `EXCLUDE_TOPICS`. Both use the plain English topic names from DoesTheDogDie.com (not numeric IDs). Matching is case-insensitive.
+
+To see every available topic name, run:
 
 ```bash
 python plex_warnings.py --list-topics
 ```
+
+This prints all ~200 topics in a copy-paste-ready format. Example output:
+
+```
+Available topics from DoesTheDogDie.com:
+  - a dog dies
+  - a cat dies
+  - an animal is sad
+  - someone is sexually assaulted
+  - there are bugs
+  ...
+```
+
+**Only show specific topics you care about:**
+
+```python
+# config.py
+INCLUDE_TOPICS = ["a dog dies", "a cat dies", "someone is sexually assaulted"]
+```
+
+```yaml
+# docker-compose.yml
+INCLUDE_TOPICS=a dog dies,a cat dies,someone is sexually assaulted
+```
+
+**Hide topics you don't want to see:**
+
+```python
+# config.py
+EXCLUDE_TOPICS = ["there is copaganda", "there are shower scenes"]
+```
+
+```yaml
+# docker-compose.yml
+EXCLUDE_TOPICS=there is copaganda,there are shower scenes
+```
+
+If both are set, `INCLUDE_TOPICS` takes priority and `EXCLUDE_TOPICS` is ignored.
 
 ## How It Works
 
